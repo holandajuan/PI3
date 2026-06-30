@@ -20,8 +20,8 @@ module tb_filtro;
     );
 
     // Memória para armazenar as linhas do TXT
-    // Tamanho ajustado para 500000 para suportar arquivos grandes
-    logic [27:0] memoria_entrada [0:499999];
+    // Tamanho ajustado para 600000 para suportar arquivos grandes
+    logic [27:0] memoria_entrada [0:599999];
 
     int arquivo_saida;
     int arquivo_tempo;
@@ -38,13 +38,13 @@ module tb_filtro;
         signal_in = '0;
 
         // Limpa a memoria_entrada para saber quando o arquivo txt acaba
-        for (i = 0; i < 500000; i = i + 1) begin
+        for (i = 0; i < 600000; i = i + 1) begin
             memoria_entrada[i] = 28'bx;
         end
 
         // 1. CARREGA O ARQUIVO TXT
         // Lê os dados do arquivo gerado e coloca na memória
-        $readmemb("entrada_audio.txt", memoria_entrada);
+        $readmemb("../entrada_audio.txt", memoria_entrada);
 
         // 2. CRIA OS ARQUIVOS DE SAÍDA
         arquivo_saida = $fopen("output.txt", "w");
@@ -56,7 +56,7 @@ module tb_filtro;
         enable = 1'b1;
 
         // 3. INJETA OS DADOS: Um por ciclo de clock
-        for (i = 0; i < 500000; i = i + 1) begin
+        for (i = 0; i < 600000; i = i + 1) begin
             // Se acabar as amostras ou o dado for vazio (x), encerra a simulação
             if (memoria_entrada[i] === 28'bx) begin
                 $display("Fim do arquivo alcancado na linha %0d!", i);
