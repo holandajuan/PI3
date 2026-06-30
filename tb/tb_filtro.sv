@@ -2,8 +2,8 @@
 
 module tb_filtro;
     // Sinais de controle e entrada
-    logic clock_in;
-    logic reset;
+    logic clk;
+    logic rst;
     logic enable;
     logic signed [27:0] signal_in;
 
@@ -14,8 +14,8 @@ module tb_filtro;
     lowp6 uut (
         .signal_in  (signal_in),
         .signal_out (signal_out),
-        .clock_in   (clock_in),
-        .reset      (reset),
+        .clk   (clk),
+        .rst      (rst),
         .enable     (enable)
     );
 
@@ -28,12 +28,12 @@ module tb_filtro;
     int i;
 
     // Gera o Clock (período de 20ns -> 50MHz)
-    always #10 clock_in = ~clock_in;
+    always #10 clk = ~clk;
 
     initial begin
         // Inicializa as variáveis
-        clock_in  = 1'b0;
-        reset     = 1'b1;
+        clk  = 1'b0;
+        rst     = 1'b1;
         enable    = 1'b0;
         signal_in = '0;
 
@@ -44,15 +44,15 @@ module tb_filtro;
 
         // 1. CARREGA O ARQUIVO TXT
         // Lê os dados do arquivo gerado e coloca na memória
-        $readmemb("../entrada_audio.txt", memoria_entrada);
+        $readmemb("../input.txt", memoria_entrada);
 
         // 2. CRIA OS ARQUIVOS DE SAÍDA
-        arquivo_saida = $fopen("output.txt", "w");
-        arquivo_tempo = $fopen("time.txt", "w");
+        arquivo_saida = $fopen("output_sen.txt", "w");
+        arquivo_tempo = $fopen("time_sen.txt", "w");
 
         // Aguarda um tempo inicial e tira do reset
         #100;
-        reset  = 1'b0;
+        rst  = 1'b0;
         enable = 1'b1;
 
         // 3. INJETA OS DADOS: Um por ciclo de clock
@@ -65,7 +65,7 @@ module tb_filtro;
                 signal_in = memoria_entrada[i];
 
                 // Espera a borda de subida do clock para o filtro processar a amostra
-                @(posedge clock_in);
+                @(posedge clk);
 
                 // Grava M1 (entrada) e M2 (saída) no output.txt
                 $fdisplay(arquivo_saida, "%d %d", signal_in, signal_out);

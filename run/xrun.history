@@ -1,0 +1,4 @@
+#e1(29Jun2026:21:29:46): source ./xcelium.d/env.d/env.history.29Jun2026_21_29_46
+s1(29Jun2026:21:29:46):  xrun -64bit -sv ../rtl/lowp6.sv ../tb/tb_filtro.sv -access +rwc 
+#e2(29Jun2026:21:39:37): source ./xcelium.d/env.d/env.history.29Jun2026_21_39_37
+s2(29Jun2026:21:39:37):  xrun -64bit -sv ../rtl/lowp6.sv ../tb/tb_filtro.sv -access +rwc 

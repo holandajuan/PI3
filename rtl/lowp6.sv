@@ -9,8 +9,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module lowp6 (
-    input  logic               clock_in,
-    input  logic               reset,
+    input  logic               clk,
+    input  logic               rst,
     input  logic               enable,
     input  logic signed [27:0] signal_in,
     output logic signed [27:0] signal_out
@@ -39,8 +39,8 @@ module lowp6 (
     genvar i;
     generate
         for (i = 0; i < N-1; i = i + 1) begin : gd
-            always_ff @(posedge clock_in) begin
-                if (reset)
+            always_ff @(posedge clk) begin
+                if (rst)
                     data[i+1] <= '0;
                 else
                     data[i+1] <= data[i];
@@ -49,8 +49,8 @@ module lowp6 (
     endgenerate
 
     // Entrada do Shift Register: carrega a nova amostra na posição 0
-    always_ff @(posedge clock_in) begin
-        if (reset)
+    always_ff @(posedge clk) begin
+        if (rst)
             data[0] <= '0;
         else
             data[0] <= signal_in;
@@ -65,8 +65,8 @@ module lowp6 (
     // ---------------------------------------------------------------
     // Output Register: registra a saída filtrada
     // ---------------------------------------------------------------
-    always_ff @(posedge clock_in) begin
-        if (reset) begin
+    always_ff @(posedge clk) begin
+        if (rst) begin
             signal_out     <= '0;
             signal_out_tmp_3 <= '0;
         end else begin
