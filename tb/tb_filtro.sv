@@ -44,11 +44,11 @@ module tb_filtro;
 
         // 1. CARREGA O ARQUIVO TXT
         // Lê os dados do arquivo gerado e coloca na memória
-        $readmemb("../entrada_audio.txt", memoria_entrada);
+        $readmemb("../input.txt", memoria_entrada);
 
         // 2. CRIA OS ARQUIVOS DE SAÍDA
-        arquivo_saida = $fopen("output_sen.txt", "w");
-        arquivo_tempo = $fopen("time_sen.txt", "w");
+        arquivo_saida = $fopen("output.txt", "w");
+        arquivo_tempo = $fopen("time.txt", "w");
 
         // Aguarda um tempo inicial e tira do reset
         #100;
