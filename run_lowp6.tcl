@@ -23,7 +23,7 @@ set LIB_PATH  $LOCAL_DIR/library
 # --------------------------------------------------------------
 # Nome da biblioteca utilizada (define tecnologia, timing, área)
 # --------------------------------------------------------------
-set LIBRARY   fast.lib
+set LIBRARY   gscl45nm.lib
 
 # --------------------------------------------------------------
 # Nome do arquivo RTL
