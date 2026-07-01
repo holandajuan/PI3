@@ -5,10 +5,10 @@ module tb_filtro;
     logic clk;
     logic rst;
     logic enable;
-    logic signed [27:0] signal_in;
+    logic signed [15:0] signal_in;
 
     // Sinal de saída
-    logic signed [27:0] signal_out;
+    logic signed [15:0] signal_out;
 
     // Instancia o filtro lowp6
     lowp6 uut (
@@ -21,7 +21,7 @@ module tb_filtro;
 
     // Memória para armazenar as linhas do TXT
     // Tamanho ajustado para 600000 para suportar arquivos grandes
-    logic [27:0] memoria_entrada [0:599999];
+    logic [15:0] memoria_entrada [0:599999];
 
     int arquivo_saida;
     int arquivo_tempo;
@@ -39,7 +39,7 @@ module tb_filtro;
 
         // Limpa a memoria_entrada para saber quando o arquivo txt acaba
         for (i = 0; i < 600000; i = i + 1) begin
-            memoria_entrada[i] = 28'bx;
+            memoria_entrada[i] = 16'bx;
         end
 
         // 1. CARREGA O ARQUIVO TXT
@@ -58,7 +58,7 @@ module tb_filtro;
         // 3. INJETA OS DADOS: Um por ciclo de clock
         for (i = 0; i < 600000; i = i + 1) begin
             // Se acabar as amostras ou o dado for vazio (x), encerra a simulação
-            if (memoria_entrada[i] === 28'bx) begin
+            if (memoria_entrada[i] === 16'bx) begin
                 $display("Fim do arquivo alcancado na linha %0d!", i);
                 break;  // SystemVerilog: usa 'break' ao invés de forçar o índice
             end else begin

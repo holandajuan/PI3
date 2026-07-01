@@ -12,8 +12,8 @@ module lowp6 (
     input  logic               clk,
     input  logic               rst,
     input  logic               enable,
-    input  logic signed [27:0] signal_in,
-    output logic signed [27:0] signal_out
+    input  logic signed [15:0] signal_in,
+    output logic signed [15:0] signal_out
 );
 
     // Função para calcular log2 (usado para dimensionar o acumulador)
@@ -28,10 +28,10 @@ module lowp6 (
     localparam int N2 = log2(N) - 1;
 
     // Acumulador interno
-    logic signed [27+N2:0] signal_out_tmp_3;
+    logic signed [15+N2:0] signal_out_tmp_3;
 
     // Shift Register: armazena as últimas N amostras
-    logic signed [27:0] data [0:N-1];
+    logic signed [15:0] data [0:N-1];
 
     // ---------------------------------------------------------------
     // Sample Shift Register: propaga as amostras a cada ciclo de clock
@@ -59,7 +59,7 @@ module lowp6 (
     // ---------------------------------------------------------------
     // FIR Core (Média Móvel): y[n] = y[n-1] + x[n] - x[n-N]
     // ---------------------------------------------------------------
-    logic signed [27+N2:0] signal_out_tmp_2;
+    logic signed [15+N2:0] signal_out_tmp_2;
     assign signal_out_tmp_2 = signal_out_tmp_3 + signal_in - data[N-1];
 
     // ---------------------------------------------------------------
@@ -70,7 +70,7 @@ module lowp6 (
             signal_out     <= '0;
             signal_out_tmp_3 <= '0;
         end else begin
-            signal_out     <= signal_out_tmp_2[27+N2 : N2];
+            signal_out     <= signal_out_tmp_2[15+N2 : N2];
             signal_out_tmp_3 <= signal_out_tmp_2;
         end
     end
